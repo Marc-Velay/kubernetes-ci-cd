@@ -20,7 +20,7 @@ node {
     stage "Push"
 
         sh "docker push ${imageName}"
-        sh "cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        sh "kubectl --token=`cat /var/run/secrets/kubernetes.io/serviceaccount/token` get pods"
     stage "Deploy"
 
         sh "sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
