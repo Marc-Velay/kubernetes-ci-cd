@@ -21,6 +21,7 @@ node {
 
         sh "docker push ${imageName}"
         sh "kubectl --token=`cat /var/run/secrets/kubernetes.io/serviceaccount/token` get pods"
+        sh "kubectl -n kube-system get secret clusterinfo -o yaml | grep token-map | awk '{print $2}' | base64 -d | sed "s|{||g;s|}||g;s|:|.|g;s/\"//g;" | xargs echo"
     stage "Deploy"
 
         sh "sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
