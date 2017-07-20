@@ -27,7 +27,7 @@ node {
         //sh "kubectl -n kube-system get secret clusterinfo -o yaml | grep token-map | awk '{print $2}' | base64 -d | sed "s|{||g;s|}||g;s|:|.|g;s/\"//g;" | xargs echo"
     stage "Deploy"
         //sh '''curl -v --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H \"Authorization: Bearer `cat /var/run/secrets/kubernetes.io/serviceaccount/token`\" https://10.96.0.1/  && sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -'''
-        sh ''' kubectl config set-credebtials kube-admin --token=${TOKEN} '''
+        sh ''' kubectl config set-credentials kube-admin --token=${TOKEN} '''
         //sh "sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
         sh "kubectl apply -f applications/hello-kenzan/k8s/deployment.yaml --username kube-admin"
         sh "kubectl rollout status deployment/hello-kenzan"
