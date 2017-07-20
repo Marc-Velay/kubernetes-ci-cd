@@ -20,8 +20,8 @@ node {
     stage "Push"
 
         sh "docker push ${imageName}"
-        sh "kubectl --token=`cat /var/run/secrets/kubernetes.io/serviceaccount/token` get pods"
-        sh "kubectl -n kube-system get secret clusterinfo -o yaml | grep token-map | awk '{print $2}' | base64 -d | sed "s|{||g;s|}||g;s|:|.|g;s/\"//g;" | xargs echo"
+        sh "kubectl --token=yJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tdjMwemMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjlmMGQ2OTVmLTZjYTQtMTFlNy1hM2ExLTAwMGMyOWRkMzYyYSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.AtVv2QHmCX07iJiqalRqYMRKwQ_dSoU5i6DSw8c9Ye3ANCyyIBOph3K8n1-lG85DZv9f1I4G6Ddo7r6fqA_knj3f57DYwByHYiXRI36HHvGEb_AC6gUUZzEmuIC0hbQIlnffGy_nGPrKR5BWVmZe925WN9kZIABn5OR-0eX_KeF30d8-n0qbBngkviREU4HDfFNGOTnCRt-_CXCY76isd9_cIYevpWw1ELD3B7NTxqfCaut-4hVIttzrjEoI4byt5dOVzHmAV_NhOcWTQfPX0JV12Xyag8rke8g-3ma-BN25fz8MIv7LHcniv9yqaZDP-wRMmiaByGIUdsXfJ4yvCA get pods"
+        //sh "kubectl -n kube-system get secret clusterinfo -o yaml | grep token-map | awk '{print $2}' | base64 -d | sed "s|{||g;s|}||g;s|:|.|g;s/\"//g;" | xargs echo"
     stage "Deploy"
 
         sh "sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
