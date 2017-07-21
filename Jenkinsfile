@@ -36,6 +36,7 @@ node {
         //sh "sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml >> tmpfile"
         sh "cat applications/hello-kenzan/k8s/deployment.yaml > tmpfile"
         def lastoutput=readFile('tmpfile')
+        sh "echo ${lastoutput}"
         sh "kubectl apply --as=kubernetes-admin --token=${TOKEN} -f  ${lastoutput}"
         sh "kubectl rollout status deployment/hello-kenzan --as=kubernetes-admin --token=${TOKEN}"
 }
