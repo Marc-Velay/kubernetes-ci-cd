@@ -37,6 +37,6 @@ node {
         //sh "cat applications/hello-kenzan/k8s/deployment.yaml > tmpfile"
         //def lastoutput=readFile('tmpfile')
         //sh "echo ${lastoutput}"
-        sh "kubectl apply --as=kubernetes-admin --namespace=default --as-group=kubernetes -f  https://raw.githubusercontent.com/Marc-Velay/kubernetes-ci-cd/master/applications/hello-kenzan/k8s/deployment.yaml"
+        sh "kubectl apply -f  ./applications/hello-kenzan/k8s/"
         sh "kubectl rollout status deployment/hello-kenzan --as=kubernetes-admin --token=${TOKEN}"
 }
