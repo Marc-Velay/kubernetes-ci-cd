@@ -37,8 +37,8 @@ node {
         //sh "cat applications/hello-kenzan/k8s/deployment.yaml > tmpfile"
         //def lastoutput=readFile('tmpfile')
         //sh "echo ${lastoutput}"
-        sh '''kubectl apply -f cluser-role.yaml \
-            kubectl apply -f role-bin-user.yaml \
+        sh '''kubectl apply -f cluser-role.yaml && \
+            kubectl apply -f role-bin-user.yaml && \
             kubectl apply --as=adm -f  ./applications/hello-kenzan/k8s/ '''
         sh "kubectl rollout status deployment/hello-kenzan --as=kubernetes-admin --token=${TOKEN}"
 }
