@@ -30,7 +30,7 @@ node {
         //sh ''' kubectl config set-credentials kube-admin --token=${TOKEN} && kubectl apply -f applications/hello-kenzan/k8s/deployment.yaml --username kube-admin'''
         //sh "sed 's#127.0.0.1:30400/hello-kenzan:latest#'$BUILDIMG'#' applications/hello-kenzan/k8s/deployment.yaml | kubectl apply -f -"
         //env.TOKEN=${sh '''kubectl exec jenkins-1385064901-t4vv4 -- cat /var/run/secrets/kubernetes.io/serviceaccount/token'''}
-        sh ''' kubectl exec jenkins-1385064901-t4vv4 -- cat /var/run/secrets/kubernetes.io/serviceaccount/token > token '''
+        sh ''' cat /var/run/secrets/kubernetes.io/serviceaccount/token > token '''
         env.TOKEN=readFile('token').trim()
         sh "kubectl apply -f applications/hello-kenzan/k8s/deployment.yaml --as=kubernetes-admin --token=${TOKEN}"
         sh "kubectl rollout status deployment/hello-kenzan"
