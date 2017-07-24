@@ -23,7 +23,7 @@ node {
 
     stage "Deploy"
 
-        sh '''export KUBECONFIG=/data/jenkins/config \
+        sh '''export KUBECONFIG=/root/.jenkins/config \
             && kubectl apply -f  ./applications/hello-kenzan/k8s/ \
             && kubectl rollout status deployment/hello-kenzan '''
 }
