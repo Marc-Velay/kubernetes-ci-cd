@@ -37,6 +37,7 @@ node {
         //sh "cat applications/hello-kenzan/k8s/deployment.yaml > tmpfile"
         //def lastoutput=readFile('tmpfile')
         //sh "echo ${lastoutput}"
+        sh "export KUBECONFIG=/config"
         sh '''kubectl apply -f  ./applications/hello-kenzan/k8s/ '''
         sh "kubectl rollout status deployment/hello-kenzan"
 }
