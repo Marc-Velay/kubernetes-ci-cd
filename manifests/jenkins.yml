@@ -67,10 +67,15 @@ spec:
           mountPath: /root/.jenkins
         - name: docker
           mountPath: /var/run/docker.sock
+        - name: kubectl
+          mountPath: /usr/bin/kubectl
       volumes:
       - name: docker
         hostPath:
           path: /var/run/docker.sock
+      - name: kubectl
+        hostPath:
+          path: /usr/bin/kubectl
       - name: jenkins-persistent-storage
         persistentVolumeClaim:
           claimName: jenkins-claim
