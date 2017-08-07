@@ -15,7 +15,7 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
 RUN echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" >>/etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update
 RUN apt-get install -y kubelet
-RUN service docker restart
+RUN service docker.io restart
 RUN service kubelet restart
 RUN service jenkins restart
 VOLUME ["/var/run/docker.sock"]
