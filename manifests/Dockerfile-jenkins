@@ -15,5 +15,10 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
 RUN echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" >>/etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update
 RUN apt-get install -y kubelet
-
+RUN /etc/init.d/docker start
+RUN /etc/init.d/kunelet start
+RUN /etc/init.d/jenkins start
+VOLUME ["/var/run/docker.sock"]
+VOLUME ["/data/jenkins/"]
+VOLUME ["/usr/bin/kubectl"]
 EXPOSE 8080
