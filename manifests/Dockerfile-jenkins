@@ -3,7 +3,7 @@ FROM phusion/baseimage:0.9.22
 CMD ["/sbin/my_init"]
 
 USER root
-RUN apt-get install curl \
+RUN apt-get update && apt-get install curl \
     wget \
     sudo
 RUN wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
