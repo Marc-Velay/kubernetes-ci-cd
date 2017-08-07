@@ -55,7 +55,7 @@ spec:
         tier: jenkins
     spec:
       containers:
-      - image: jenkins/jenkins:lts
+      - image: chadmoon/jenkins-docker-kubectl:latest
         name: jenkins
         securityContext:
           privileged: true
