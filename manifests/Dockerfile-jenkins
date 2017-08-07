@@ -13,8 +13,9 @@ ENV JAVA_VERSION=8u111
 ENV JAVA_DEBIAN_VERSION=8u131-b11-2ubuntu1.16.04.3
 ENV CA_CERTIFICATES_JAVA_VERSION=20160321
 RUN set -x  && apt-get update  && apt-get install -y openjdk-8-jre openjdk-8-jdk && [ "$JAVA_HOME" = "$(docker-java-home)" ]
+RUN export JAVA_HOME
+RUN PATH=$PATH:$JAVA_HOME/bin && export PATH
 RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
-RUN update-alternatives --config java
 RUN apt-get update && apt-get upgrade -y && apt-get install -y wget git curl
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
 RUN wget -qO- https://get.docker.com/ | sh
