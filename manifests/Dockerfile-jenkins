@@ -3,21 +3,21 @@ FROM phusion/baseimage:0.9.22
 CMD ["/sbin/my_init"]
 
 USER root
-apt-get install curl \
+RUN apt-get install curl \
     wget \
     sudo
-wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+RUN wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
 
-sudo apt-get update && sudo apt-get install docker jenkins 
+RUN apt-get update && sudo apt-get install docker jenkins 
 
-sudo systemctl start docker jenkins && sudo systemctl enable docker jenkins
-sudo ufw allow 8080
+RUN systemctl start docker jenkins && sudo systemctl enable docker jenkins
+RUN ufw allow 8080
 
-sudo apt-get update && apt-get install -y apt-transport-https
-sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-sudo cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+RUN apt-get update && apt-get install -y apt-transport-https
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
-sudo apt-get update
-sudo apt-get install -y kubelet
-sudo systemctl enable kubelet && sudo systemctl start kubelet
+RUN apt-get update
+RUN apt-get install -y kubelet
+RUN systemctl enable kubelet && sudo systemctl start kubelet
