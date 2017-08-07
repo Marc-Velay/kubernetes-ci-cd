@@ -37,7 +37,7 @@ RUN mkdir /etc/service/jenkins
 COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
 RUN chmod +x /etc/service/jenkins/run
 
-#CMD ["java" "-jar" "/jenkins.war"]
+#CMD ["java" "-jar" "/jenkins.jar"]
 
 
 
