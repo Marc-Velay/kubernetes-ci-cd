@@ -10,7 +10,6 @@ RUN wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key
 RUN echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
 RUN apt-get update && sudo apt-get install -y docker jenkins 
 
-RUN systemctl start docker jenkins && sudo systemctl enable docker jenkins
 RUN ufw allow 8080
 
 RUN apt-get update && apt-get install -y apt-transport-https
@@ -20,4 +19,3 @@ deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 RUN apt-get update
 RUN apt-get install -y kubelet
-RUN systemctl enable kubelet && sudo systemctl start kubelet
