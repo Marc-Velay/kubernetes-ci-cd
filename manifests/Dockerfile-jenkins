@@ -24,7 +24,8 @@ RUN apt-get update && \
     apt-get update && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get install -y oracle-java8-installer && \
-    apt-get clean
+    apt-get clean && \
+    echo $(JAVA_HOME) > /etc/container_environment/JAVA_HOME
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
 RUN wget -qO- https://get.docker.com/ | sh
@@ -33,11 +34,10 @@ RUN chmod +x kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 
 RUN mkdir /etc/service/jenkins
-ADD manifests/jenkins-setup.sh .
-COPY jenkins-setup.sh /etc/service/jenkins/run
+COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
 RUN chmod +x /etc/service/jenkins/run
 
-#CMD ["bash "-c" "java" "-jar" "jenkins.war"]
+#CMD ["java" "-jar" "jenkins.war"]
 
 
 
