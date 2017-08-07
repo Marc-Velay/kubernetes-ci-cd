@@ -32,7 +32,12 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 RUN chmod +x kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 
-CMD ["java" "-jar" "jenkins.war"]
+RUN mkdir /etc/service/jenkins
+ADD manifests/jenkins-setup.sh .
+COPY jenkins-setup.sh /etc/service/jenkins/run
+RUN chmod +x /etc/service/jenkins/run
+
+#CMD ["bash "-c" "java" "-jar" "jenkins.war"]
 
 
 
