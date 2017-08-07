@@ -3,7 +3,9 @@ FROM phusion/baseimage:0.9.22
 CMD ["/sbin/my_init"]
 
 USER root
-
+apt-get install curl \
+    wget \
+    sudo
 wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
 
 sudo apt-get update && sudo apt-get install docker jenkins 
