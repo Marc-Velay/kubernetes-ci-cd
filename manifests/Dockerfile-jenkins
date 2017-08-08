@@ -4,7 +4,7 @@ CMD ["/sbin/my_init"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends   ca-certificates   curl   wget
 RUN apt-get update && apt-get install -y --no-install-recommends   bzr   git   mercurial   openssh-client   subversion     procps
-RUN apt-get update && apt-get install -y --no-install-recommends   bzip2   unzip   xz-utils
+RUN apt-get update && apt-get install -y --no-install-recommends   bzip2   unzip   xz-utils sshpass
 #RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 ENV LANG=C.UTF-8
 #RUN {   echo '#!/bin/sh';   echo 'set -e';   echo;   echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"';  } > /usr/local/bin/docker-java-home  && chmod +x /usr/local/bin/docker-java-home
@@ -33,7 +33,7 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 RUN chmod +x kubectl
 RUN mv ./kubectl /usr/local/bin/kubectl
 RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
-RUN ssh-copy-id -i /root/.ssh/id_rsa mvelay:Madrid2013@192.168.7.210:
+RUN sshpass -f password.txt ssh-copy-id -i /root/.ssh/id_rsa mvelay@192.168.7.210:
 
 RUN mkdir /etc/service/jenkins
 COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
