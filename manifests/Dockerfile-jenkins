@@ -20,9 +20,9 @@ RUN apt-get update && \
 
 RUN add-apt-repository ppa:fkrull/deadsnakes \
     && apt-get update -y \
-    && apt-get install -y python3.4 python3.4-dev python3-pip python3-numpy python3-quickfix python3-cryptography \
+    && apt-get install -y python3.4 python3.4-dev python3-pip \
     && pip3 install virtualenv \
-    && python3.4 -m pip install numpy -v
+    && python3.4 -m pip install numpy quickfix cryptography -v
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
 RUN wget -qO- https://get.docker.com/ | sh
