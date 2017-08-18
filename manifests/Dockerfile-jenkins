@@ -26,7 +26,7 @@ RUN add-apt-repository ppa:fkrull/deadsnakes \
     && apt-get install -y python3-pip \
     && pip3 install virtualenv 
 
-RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war -q --show-progress
 RUN wget -qO- https://get.docker.com/ | sh
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN chmod +x kubectl
