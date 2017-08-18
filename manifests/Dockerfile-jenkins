@@ -20,7 +20,7 @@ RUN apt-get update && \
 
 RUN add-apt-repository ppa:fkrull/deadsnakes \
     && apt-get update -y \
-    && apt-get install -y python3.6 python3-pip \
+    && apt-get install -y python3.4 python3-pip \
     && pip3 install virtualenv
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
