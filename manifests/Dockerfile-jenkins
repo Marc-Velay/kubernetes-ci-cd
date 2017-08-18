@@ -4,7 +4,7 @@ CMD ["/sbin/my_init"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends   ca-certificates   curl   wget
 RUN apt-get update && apt-get install -y --no-install-recommends   bzr   git   mercurial   openssh-client   subversion     procps
-RUN apt-get update && apt-get install -y --no-install-recommends   bzip2   unzip   xz-utils sshpass make g++
+RUN apt-get update && apt-get install -y --no-install-recommends   bzip2   unzip   xz-utils sshpass make g++ 
 ENV LANG=C.UTF-8
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
@@ -20,7 +20,7 @@ RUN apt-get update && \
 
 RUN add-apt-repository ppa:fkrull/deadsnakes \
     && apt-get update -y \
-    && apt-get install -y python3.4 python3-pip \
+    && apt-get install -y python3.4 python3-dev python3-pip \
     && pip3 install virtualenv
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
