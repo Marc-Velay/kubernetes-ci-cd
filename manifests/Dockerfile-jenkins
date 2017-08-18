@@ -5,17 +5,8 @@ CMD ["/sbin/my_init"]
 RUN apt-get update && apt-get install -y --no-install-recommends   ca-certificates   curl   wget
 RUN apt-get update && apt-get install -y --no-install-recommends   bzr   git   mercurial   openssh-client   subversion     procps
 RUN apt-get update && apt-get install -y --no-install-recommends   bzip2   unzip   xz-utils sshpass
-#RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 ENV LANG=C.UTF-8
-#RUN {   echo '#!/bin/sh';   echo 'set -e';   echo;   echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"';  } > /usr/local/bin/docker-java-home  && chmod +x /usr/local/bin/docker-java-home
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-#ENV JAVA_VERSION=8u111
-#ENV JAVA_DEBIAN_VERSION=8u131-b11-2ubuntu1.16.04.3
-#ENV CA_CERTIFICATES_JAVA_VERSION=20160321
-#RUN set -x  && apt-get update  && apt-get install -y openjdk-8-jre openjdk-8-jdk && [ "$JAVA_HOME" = "$(docker-java-home)" ]
-#RUN export JAVA_HOME
-#RUN PATH=$PATH:$JAVA_HOME/bin && export PATH
-#RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -26,6 +17,11 @@ RUN apt-get update && \
     apt-get install -y oracle-java8-installer && \
     apt-get clean && \
     echo /usr/lib/jvm/java-8-openjdk-amd64 > /etc/container_environment/JAVA_HOME
+
+RUN add-apt-repository ppa:fkrull/deadsnakes \
+    && apt-get update \
+    && apt-get install python3.4 python3-pip \
+    && pip3 install virtualenv
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
 RUN wget -qO- https://get.docker.com/ | sh
@@ -39,27 +35,4 @@ RUN mkdir /etc/service/jenkins
 COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
 RUN chmod +x /etc/service/jenkins/run
 
-#CMD ["java" "-jar" "/jenkins.war"]
-
-
-
-
-#USER root
-#RUN apt-get update && apt-get install -y curl \
-#    wget \
-#    sudo
-#RUN wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
-#RUN echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
-#RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-#RUN echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" >>/etc/apt/sources.list.d/kubernetes.list
-
-#RUN apt-get update  && apt-get upgrade -y && sudo apt-get install -y docker jenkins apt-transport-https kubelet
-
-#RUN service docker restart
-#RUN service kubelet restart
-#RUN service jenkins restart
-
-#VOLUME ["/var/run/docker.sock"]
-#VOLUME ["/data/jenkins/"]
-#VOLUME ["/usr/bin/kubectl"]
 EXPOSE 8080
