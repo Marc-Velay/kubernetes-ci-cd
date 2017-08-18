@@ -58,6 +58,7 @@ spec:
       containers:
       - image: gniorg/jenkins-mv:latest
         name: jenkins
+        imagePullPolicy: Always
         securityContext:
           privileged: true
         ports:
