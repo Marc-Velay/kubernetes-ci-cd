@@ -19,8 +19,8 @@ RUN apt-get update && \
     echo /usr/lib/jvm/java-8-openjdk-amd64 > /etc/container_environment/JAVA_HOME
 
 RUN add-apt-repository ppa:fkrull/deadsnakes \
-    && apt-get update \
-    && apt-get install python3.6 python3-pip \
+    && apt-get update -y \
+    && apt-get install -y python3.6 python3-pip \
     && pip3 install virtualenv
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
