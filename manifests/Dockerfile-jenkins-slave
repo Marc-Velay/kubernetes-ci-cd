@@ -42,19 +42,20 @@ RUN chmod +x /etc/service/jenkins/run
 ENV HOME /root/.jenkins
 RUN addgroup --system --gid 10000 jenkins
 RUN adduser --system --uid 10000 --home $HOME jenkins
-RUN usermod -aG sudo jenkins 
 RUN usermod -aG jenkins jenkins
 
 ARG VERSION=3.10
 ARG AGENT_WORKDIR=/root/.jenkins/agent
 
-RUN apt-get install -y curl bash git openssh-client openssl sudo \
+RUN apt-get install -y curl bash git openssh-client openssl \
   && curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar \
   && chmod 755 /usr/share/jenkins \
   && chmod 644 /usr/share/jenkins/slave.jar
+
+RUN mkdir /root/.jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
+RUN chown jenkins:jenkins -R /root/.jenkins/.jenkins && chown jenkins:jenkins -R -p ${AGENT_WORKDIR}
 USER jenkins
 ENV AGENT_WORKDIR=${AGENT_WORKDIR}
-RUN sudo mkdir /root/.jenkins/.jenkins && sudo mkdir -p ${AGENT_WORKDIR}
 
 VOLUME /root/.jenkins/.jenkins
 VOLUME ${AGENT_WORKDIR}
