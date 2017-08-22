@@ -41,7 +41,7 @@ RUN chmod +x /etc/service/jenkins/run
 
 ENV HOME /root/.jenkins
 RUN addgroup --system --gid 10000 jenkins
-RUN adduser --system -u 10000 -h $HOME -G jenkins jenkins
+RUN adduser --system --uid 10000 -h $HOME -G jenkins jenkins
 
 ARG VERSION=3.10
 ARG AGENT_WORKDIR=/root/.jenkins/agent
