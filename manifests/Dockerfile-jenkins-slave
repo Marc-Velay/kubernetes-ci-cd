@@ -27,14 +27,6 @@ RUN add-apt-repository ppa:fkrull/deadsnakes \
     && pip3 install virtualenv 
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war 
-
-ENV HOME /root/.jenkins
-RUN addgroup --system --gid 10000 jenkins
-RUN adduser --system -u 10000 -h $HOME -G jenkins jenkins
-
-ARG VERSION=3.10
-ARG AGENT_WORKDIR=/root/.jenkins/agent
-
 RUN wget -qO- https://get.docker.com/ | sh
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN chmod +x kubectl
@@ -45,6 +37,14 @@ RUN sshpass -p "Madrid2013" ssh-copy-id -i /root/.ssh/id_rsa -o StrictHostKeyChe
 RUN mkdir /etc/service/jenkins
 COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
 RUN chmod +x /etc/service/jenkins/run
+
+
+ENV HOME /root/.jenkins
+RUN addgroup --system --gid 10000 jenkins
+RUN adduser --system -u 10000 -h $HOME -G jenkins jenkins
+
+ARG VERSION=3.10
+ARG AGENT_WORKDIR=/root/.jenkins/agent
 
 RUN apk add --update --no-cache curl bash git openssh-client openssl \
   && curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar \
