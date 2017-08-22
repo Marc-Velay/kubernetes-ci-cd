@@ -29,7 +29,7 @@ RUN add-apt-repository ppa:fkrull/deadsnakes \
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war 
 
 ENV HOME /data/jenkins
-RUN addgroup -g 10000 jenkins
+RUN addgroup -S --gid 10000 jenkins
 RUN adduser -u 10000 -h $HOME -G jenkins jenkins
 
 ARG VERSION=3.10
