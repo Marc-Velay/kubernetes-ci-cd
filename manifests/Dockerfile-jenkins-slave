@@ -28,12 +28,12 @@ RUN add-apt-repository ppa:fkrull/deadsnakes \
 
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war 
 
-ENV HOME /data/jenkins
+ENV HOME /root/.jenkins
 RUN addgroup --system --gid 10000 jenkins
 RUN adduser --system -u 10000 -h $HOME -G jenkins jenkins
 
 ARG VERSION=3.10
-ARG AGENT_WORKDIR=/data/jenkins/agent
+ARG AGENT_WORKDIR=/root/.jenkins/agent
 
 RUN wget -qO- https://get.docker.com/ | sh
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
@@ -53,10 +53,10 @@ RUN apk add --update --no-cache curl bash git openssh-client openssl \
   && apk del curl
 USER jenkins
 ENV AGENT_WORKDIR=${AGENT_WORKDIR}
-RUN mkdir /data/jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
+RUN mkdir /root/.jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
 
-VOLUME /data/jenkins/.jenkins
+VOLUME /root/.jenkins/.jenkins
 VOLUME ${AGENT_WORKDIR}
-WORKDIR /data/jenkins
+WORKDIR /root/.jenkins
 
 EXPOSE 8080
