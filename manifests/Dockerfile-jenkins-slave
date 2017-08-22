@@ -41,7 +41,7 @@ RUN chmod +x /etc/service/jenkins/run
 
 ENV HOME /root/.jenkins
 RUN addgroup --system --gid 10000 jenkins
-RUN adduser --system --uid 10000 -m -d $HOME 
+RUN adduser --system --uid 10000 --home $HOME 
 RUN adduser jenkins jenkins
 
 ARG VERSION=3.10
