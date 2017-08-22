@@ -64,6 +64,8 @@ spec:
         ports:
         - containerPort: 8080
           name: jenkins
+        - name: jnlp-port
+          containerPort: 50000
         volumeMounts:
         - name: jenkins-persistent-storage
           mountPath: /root/.jenkins

@@ -1,0 +1,62 @@
+FROM gniorg/baseimage-jenkins:latest
+
+CMD ["/sbin/my_init"]
+
+RUN apt-get update && apt-get install -y --no-install-recommends   ca-certificates   curl   wget
+RUN apt-get update && apt-get install -y --no-install-recommends   bzr   git   mercurial   openssh-client   subversion     procps
+RUN apt-get update && apt-get install -y --no-install-recommends   bzip2   unzip   xz-utils sshpass make g++ gcc libffi-dev libssl-dev
+ENV LANG=C.UTF-8
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y  software-properties-common && \
+    add-apt-repository ppa:webupd8team/java -y && \
+    apt-get update && \
+    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
+    apt-get install -y oracle-java8-installer && \
+    apt-get clean && \
+    echo /usr/lib/jvm/java-8-openjdk-amd64 > /etc/container_environment/JAVA_HOME
+
+RUN add-apt-repository ppa:fkrull/deadsnakes \
+    && apt-get update -y \
+    && apt-get install -y python3.4 \
+    && apt-get install -y python3.4-dev \
+    && apt-get install -y libpython3.4-dev \ 
+    && apt-get install -y python3-pip \
+    && pip3 install virtualenv 
+
+RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war 
+
+ENV HOME /data/jenkins
+RUN addgroup -S -g 10000 jenkins
+RUN adduser -S -u 10000 -h $HOME -G jenkins jenkins
+
+ARG VERSION=3.10
+ARG AGENT_WORKDIR=/data/jenkins/agent
+
+RUN wget -qO- https://get.docker.com/ | sh
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+RUN chmod +x kubectl
+RUN mv ./kubectl /usr/local/bin/kubectl
+RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+RUN sshpass -p "Madrid2013" ssh-copy-id -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no mvelay@192.168.7.210:
+
+RUN mkdir /etc/service/jenkins
+COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
+RUN chmod +x /etc/service/jenkins/run
+
+RUN apk add --update --no-cache curl bash git openssh-client openssl \
+  && curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar \
+  && chmod 755 /usr/share/jenkins \
+  && chmod 644 /usr/share/jenkins/slave.jar \
+  && apk del curl
+USER jenkins
+ENV AGENT_WORKDIR=${AGENT_WORKDIR}
+RUN mkdir /data/jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
+
+VOLUME /data/jenkins/.jenkins
+VOLUME ${AGENT_WORKDIR}
+WORKDIR /data/jenkins
+
+EXPOSE 8080
