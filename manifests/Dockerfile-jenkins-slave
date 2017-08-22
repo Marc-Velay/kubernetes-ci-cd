@@ -34,9 +34,9 @@ RUN mv ./kubectl /usr/local/bin/kubectl
 RUN ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 RUN sshpass -p "Madrid2013" ssh-copy-id -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no mvelay@192.168.7.210:
 
-RUN mkdir /etc/service/jenkins
-COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
-RUN chmod +x /etc/service/jenkins/run
+#RUN mkdir /etc/service/jenkins
+#COPY manifests/jenkins-setup.sh /etc/service/jenkins/run
+#RUN chmod +x /etc/service/jenkins/run
 
 
 ENV HOME /root/.jenkins
@@ -62,3 +62,7 @@ VOLUME ${AGENT_WORKDIR}
 WORKDIR /root/.jenkins
 
 EXPOSE 8080
+
+COPY jenkins-slave /usr/local/bin/jenkins-slave
+
+ENTRYPOINT ["jenkins-slave"]
