@@ -63,6 +63,6 @@ WORKDIR /root/.jenkins
 
 EXPOSE 8080
 
-COPY jenkins-slave /usr/local/bin/jenkins-slave
+COPY jenkins-slave-entrypoint /usr/local/bin/jenkins-slave
 
-ENTRYPOINT ["jenkins-slave"]
+ENTRYPOINT ["jenkins-slave-entrypoint"]
