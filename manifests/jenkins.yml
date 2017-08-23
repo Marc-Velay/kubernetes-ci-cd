@@ -32,7 +32,7 @@ metadata:
     app: jenkins
 spec:
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 8080
       nodePort: 30001
   selector:
@@ -64,7 +64,7 @@ spec:
         ports:
         - containerPort: 8080
           name: jenkins
-        - name: jnlp-port
+        - name: jenkins-discovery
           containerPort: 50000
         volumeMounts:
         - name: jenkins-persistent-storage
@@ -83,3 +83,17 @@ spec:
       - name: jenkins-persistent-storage
         persistentVolumeClaim:
           claimName: jenkins-claim
+---
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: jenkins-discovery
+  spec:
+    selector:
+      app: jenkins
+      tier: jenkins
+    ports:
+      - protocol: TCP
+        port: 50000
+        targetPort: 50000
+        name: slaves
