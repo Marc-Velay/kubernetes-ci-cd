@@ -64,7 +64,7 @@ spec:
         ports:
         - containerPort: 8080
           name: jenkins
-        - name: jenkins-discovery
+        - name: jenkins-disco
           containerPort: 50000
         volumeMounts:
         - name: jenkins-persistent-storage
