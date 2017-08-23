@@ -87,7 +87,7 @@ spec:
   kind: Service
   apiVersion: v1
   metadata:
-    name: jenkins-discovery
+    name: jenkins-disco
   spec:
     selector:
       app: jenkins
